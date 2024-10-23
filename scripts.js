@@ -39,7 +39,8 @@ function performCalculation() {
     const operation = document.getElementById('operation').value;
     let result;
 
-    if (isNaN(num1) || isNaN(num2)) {
+    // Handle calculations based on the selected operation
+    if (isNaN(num1) || (operation !== 'sin' && operation !== 'cos' && operation !== 'tan' && isNaN(num2))) {
         result = "Please enter valid numbers.";
     } else {
         switch (operation) {
@@ -54,6 +55,18 @@ function performCalculation() {
                 break;
             case "divide":
                 result = num2 !== 0 ? num1 / num2 : "Infinity";
+                break;
+            case "sin":
+                result = Math.sin(num1 * (Math.PI / 180)); // Convert degrees to radians
+                break;
+            case "cos":
+                result = Math.cos(num1 * (Math.PI / 180)); // Convert degrees to radians
+                break;
+            case "tan":
+                result = Math.tan(num1 * (Math.PI / 180)); // Convert degrees to radians
+                break;
+            case "power":
+                result = Math.pow(num1, num2);
                 break;
             default:
                 result = "Unknown operation.";
@@ -115,45 +128,20 @@ function animateCubes() {
             result = num2 !== 0 ? num1 / num2 : "Infinity";
             count = Math.floor(result); // Limit cubes to an integer
             break;
+        case "sin":
+        case "cos":
+        case "tan":
+            result = Math[operation](num1 * (Math.PI / 180)); // Calculate trig function
+            count = Math.floor(Math.abs(result * 10)); // Use result for cube count
+            break;
+        case "power":
+            result = Math.pow(num1, num2);
+            count = Math.floor(result); // Limit cubes to an integer
+            break;
     }
 
     // Add cubes to the world
     for (let i = 0; i < count; i++) {
         const cube = Bodies.rectangle(Math.random() * 150 + 125, Math.random() * 100 + 50, 30, 30, {
             restitution: 0.5, // Lower restitution to prevent excessive bouncing
-            friction: 1, // Increase friction for better stopping
-            frictionAir: 0.05, // Slight air friction for stability
-            density: 0.04 // Increased density to prevent falling through
-        });
-        cube.color = getRandomVibrantColor(); // Assign a random vibrant color
-        World.add(world, cube);
-        cubes.push(cube);
-    }
-
-    // Start the rendering loop
-    drawCubes(result);
-}
-
-function drawCubes(result) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw the ground
-    context.fillStyle = 'brown';
-    context.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
-
-    // Draw cubes
-    for (const cube of cubes) {
-        const { position } = cube;
-        context.fillStyle = cube.color; // Use the assigned color
-        context.fillRect(position.x - 15, position.y - 15, 30, 30);
-    }
-
-    // Display the result at the top left corner
-    context.fillStyle = 'green'; // Set text color to green
-    context.font = 'bold 16px Arial'; // Make the text bold
-    context.clearRect(0, 0, 200, 30); // Clear previous result
-    context.fillText("Result: " + result, 10, 20);
-}
-
-// Initialize the physics world
-window.onload = setup;
+            friction
