@@ -1,99 +1,71 @@
-function performCalculation() {
-    const num1 = parseFloat(document.getElementById('num1').value);
-    const num2 = parseFloat(document.getElementById('num2').value);
-    const operation = document.getElementById('operation').value;
-    let result;
+// Physics setup using Matter.js
+const { Engine, Render, World, Bodies } = Matter;
 
-    if (isNaN(num1) || isNaN(num2)) {
-        result = "Please enter valid numbers.";
-    } else {
-        switch (operation) {
-            case "add":
-                result = num1 + num2;
-                break;
-            case "subtract":
-                result = num1 - num2;
-                break;
-            case "multiply":
-                result = num1 * num2;
-                break;
-            case "divide":
-                if (num2 === 0) {
-                    result = "Cannot divide by zero.";
-                } else {
-                    result = num1 / num2;
-                }
-                break;
-            default:
-                result = "Unknown operation.";
-        }
-    }
+let engine;
+let world;
+let cubes = [];
 
-    document.getElementById('result').textContent = "Result: " + result;
-}
-// Function to perform calculations
-function performCalculation() {
-    const num1 = parseFloat(document.getElementById('num1').value);
-    const num2 = parseFloat(document.getElementById('num2').value);
-    const operation = document.getElementById('operation').value;
-    let result;
+function setup() {
+    engine = Engine.create();
+    world = engine.world;
 
-    if (isNaN(num1) || isNaN(num2)) {
-        result = "Please enter valid numbers.";
-    } else {
-        switch (operation) {
-            case "add":
-                result = num1 + num2;
-                break;
-            case "subtract":
-                result = num1 - num2;
-                break;
-            case "multiply":
-                result = num1 * num2;
-                break;
-            case "divide":
-                if (num2 === 0) {
-                    result = "Cannot divide by zero.";
-                } else {
-                    result = num1 / num2;
-                }
-                break;
-            default:
-                result = "Unknown operation.";
-        }
-    }
-
-    document.getElementById('result').textContent = "Result: " + result;
-}
-
-// Physics animation function
-function animateCubes() {
     const canvas = document.getElementById('physicsCanvas');
-    const engine = Matter.Engine.create();
-    const render = Matter.Render.create({
-        element: document.body,
+    const context = canvas.getContext('2d');
+
+    const render = Render.create({
+        canvas: canvas,
         engine: engine,
-        canvas: canvas
+        options: {
+            width: 400,
+            height: 400,
+            wireframes: false,
+        }
     });
 
-    // Create a set of cubes
-    const cubes = [];
-    for (let i = 0; i < 5; i++) {
-        const cube = Matter.Bodies.rectangle(Math.random() * 400, Math.random() * 200, 40, 40, {
-            restitution: 0.7,
-            render: {
-                fillStyle: '#3498db'
-            }
-        });
-        cubes.push(cube);
-        Matter.World.add(engine.world, cube);
+    Render.run(render);
+    Engine.run(engine);
+}
+
+function animateCubes() {
+    const num1 = parseFloat(document.getElementById('num1').value);
+    const num2 = parseFloat(document.getElementById('num2').value);
+    const operation = document.getElementById('operation').value;
+
+    // Clear previous cubes
+    World.clear(world);
+    cubes = [];
+
+    // Create cubes based on the calculation
+    let count = 0;
+    let result;
+
+    switch (operation) {
+        case "add":
+            result = num1 + num2;
+            count = result;
+            break;
+        case "subtract":
+            result = num1 - num2;
+            count = Math.abs(result);
+            break;
+        case "multiply":
+            result = num1 * num2;
+            count = Math.min(result, 20); // Limit number of cubes for visibility
+            break;
+        case "divide":
+            result = num2 !== 0 ? num1 / num2 : "Infinity";
+            count = Math.floor(result); // Limit cubes to an integer
+            break;
     }
 
-    // Set a ground
-    const ground = Matter.Bodies.rectangle(200, 390, 400, 20, { isStatic: true });
-    Matter.World.add(engine.world, ground);
-
-    // Start the engine
-    Matter.Engine.run(engine);
-    Matter.Render.run(render);
+    // Add cubes to the world
+    for (let i = 0; i < count; i++) {
+        const cube = Bodies.rectangle(Math.random() * 400, Math.random() * 400, 30, 30);
+        cubes.push(cube);
+        World.add(world, cube);
+    }
+    
+    document.getElementById('result').textContent = "Result: " + result;
 }
+
+window.onload = setup;
