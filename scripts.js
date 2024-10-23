@@ -5,7 +5,6 @@ let engine;
 let world;
 let cubes = [];
 const canvas = document.getElementById('physicsCanvas');
-const context = canvas.getContext('2d');
 const groundHeight = 10; // Height of the ground
 
 function setup() {
@@ -13,7 +12,7 @@ function setup() {
     world = engine.world;
 
     // Create a static ground body
-    const ground = Bodies.rectangle(200, canvas.height - groundHeight / 2, canvas.width, groundHeight, {
+    const ground = Bodies.rectangle(canvas.width / 2, canvas.height - groundHeight / 2, canvas.width, groundHeight, {
         isStatic: true,
         friction: 1 // Ground friction
     });
@@ -71,6 +70,9 @@ function performCalculation() {
     }
 
     document.getElementById('result').value = "Result: " + result;
+
+    // Trigger cube animation after calculation
+    animateCubes(num1, num2, operation);
 }
 
 function getRandomVibrantColor() {
@@ -87,21 +89,17 @@ function getRandomVibrantColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-function animateCubes() {
+function animateCubes(num1, num2, operation) {
     // Clear previous cubes
     World.clear(world);
     cubes = [];
 
     // Re-add ground
-    const ground = Bodies.rectangle(200, canvas.height - groundHeight / 2, canvas.width, groundHeight, {
+    const ground = Bodies.rectangle(canvas.width / 2, canvas.height - groundHeight / 2, canvas.width, groundHeight, {
         isStatic: true,
         friction: 1 // Increase friction to prevent sliding
     });
     World.add(world, ground);
-
-    const num1 = parseFloat(document.getElementById('num1').value);
-    const num2 = parseFloat(document.getElementById('num2').value);
-    const operation = document.getElementById('operation').value;
 
     // Calculate how many cubes to create based on the result
     let count = 0;
@@ -152,66 +150,5 @@ function animateCubes() {
     }
 }
 
-// Initialize the physics simulation and other functions
+// Initialize the physics simulation
 setup();
-
-function askQuestion() {
-    const userInput = document.getElementById('user-input').value;
-    const chatOutput = document.getElementById('chat-output');
-
-    if (userInput.trim() === "") {
-        return; // Do not send empty messages
-    }
-
-    const response = getResponse(userInput);
-    
-    // Display user input
-    chatOutput.innerHTML += `<div><strong>You:</strong> ${userInput}</div>`;
-    // Display chatbot response
-    chatOutput.innerHTML += `<div><strong>Chatbot:</strong> ${response}</div>`;
-    document.getElementById('user-input').value = ''; // Clear input
-
-    // Auto scroll to bottom
-    chatOutput.scrollTop = chatOutput.scrollHeight;
-}
-
-function getResponse(input) {
-    const lowerInput = input.toLowerCase();
-    if (lowerInput.includes("add") || lowerInput.includes("+")) {
-        return "To add two numbers, use the calculator above!";
-    } else if (lowerInput.includes("subtract") || lowerInput.includes("-")) {
-        return "To subtract two numbers, use the calculator above!";
-    } else if (lowerInput.includes("multiply") || lowerInput.includes("*")) {
-        return "To multiply two numbers, use the calculator above!";
-    } else if (lowerInput.includes("divide") || lowerInput.includes("/")) {
-        return "To divide two numbers, use the calculator above!";
-    } else if (lowerInput.includes("sin")) {
-        return "Use the sine function on the calculator for calculations.";
-    } else if (lowerInput.includes("cos")) {
-        return "Use the cosine function on the calculator for calculations.";
-    } else if (lowerInput.includes("tan")) {
-        return "Use the tangent function on the calculator for calculations.";
-    } else if (lowerInput.includes("help")) {
-        return "Ask about operations like add, subtract, multiply, divide, sin, cos, and tan!";
-    } else {
-        return "Sorry, I can't answer that. Try asking about math operations!";
-    }
-}
-
-// Basic Calculator Functions
-function appendToDisplay(value) {
-    document.getElementById("display").value += value;
-}
-
-function clearDisplay() {
-    document.getElementById("display").value = "";
-}
-
-function calculate() {
-    const display = document.getElementById("display");
-    try {
-        display.value = eval(display.value); // Caution: eval can be dangerous if user input is not sanitized
-    } catch {
-        display.value = "Error";
-    }
-}
