@@ -60,6 +60,15 @@ function performCalculation() {
     document.getElementById('result').textContent = "Result: " + result;
 }
 
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 function animateCubes() {
     // Clear previous cubes
     World.clear(world);
@@ -99,11 +108,12 @@ function animateCubes() {
     // Add cubes to the world
     for (let i = 0; i < count; i++) {
         const cube = Bodies.rectangle(Math.random() * 350 + 25, Math.random() * 100 + 50, 30, 30, {
-            restitution: 0.8, // Bounce when hitting the ground
+            restitution: 0.6, // Adjusted to prevent high bounces
             friction: 0.5, // Friction to help them come to rest
-            frictionAir: 1.0, // High air friction to limit sideways movement
-            density: 0.04 // Density
+            frictionAir: 0.1, // Slight air friction for stability
+            density: 0.04 // Increased density to prevent falling through
         });
+        cube.color = getRandomColor(); // Assign a random vibrant color
         cubes.push(cube);
         World.add(world, cube);
     }
@@ -122,7 +132,7 @@ function drawCubes(result) {
     // Draw cubes
     for (const cube of cubes) {
         const { position } = cube;
-        context.fillStyle = 'blue';
+        context.fillStyle = cube.color; // Use the assigned color
         context.fillRect(position.x - 15, position.y - 15, 30, 30);
     }
 
