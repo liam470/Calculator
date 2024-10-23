@@ -50,6 +50,8 @@ footer {
     margin-top: 20px;
 }
 
-canvas {
-    border: 1px solid #ccc;
+#result {
+    font-weight: bold;
+    color: green;
+    font-size: 20px;
 }
