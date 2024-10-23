@@ -3,99 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator, Physics Animation, and Graphing</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS for styling -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script> <!-- Matter.js for Physics -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for Graphing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.1.1/math.min.js"></script> <!-- Math.js for Equation Parsing -->
-    <script defer src="scripts.js"></script> <!-- Link to your JavaScript -->
+    <title>Math Calculator and Graphing Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
-        <h1>Calculator, Physics Animation, and AI Chatbot</h1>
+        <h1>Math Calculator and Graphing Tool</h1>
     </header>
 
-    <!-- Main Calculator Section -->
-    <section class="calculator-container">
-        <h2>Stylish Calculator</h2>
-        <div class="calculator">
-            <input type="text" id="result" class="result" disabled placeholder="Result">
-            <div class="inputs">
-                <input type="number" id="num1" class="input" placeholder="First Number" required>
-                <input type="number" id="num2" class="input" placeholder="Second Number" required>
-            </div>
-            <select id="operation" class="select">
-                <option value="add">Add</option>
-                <option value="subtract">Subtract</option>
-                <option value="multiply">Multiply</option>
-                <option value="divide">Divide</option>
-                <option value="sin">Sin</option>
-                <option value="cos">Cos</option>
-                <option value="tan">Tan</option>
-                <option value="power">Exponentiation</option>
-            </select>
-            <div class="buttons">
-                <button class="button" onclick="performCalculation()">Calculate</button>
-                <button class="button" onclick="animateCubes()">Play Physics</button>
-            </div>
+    <main>
+        <div class="calculator-container">
+            <h2>Calculator</h2>
+            <input type="text" id="calc-input" placeholder="Type your equation here...">
+            <button onclick="calculate()">Calculate</button>
+            <input type="text" id="calc-result" disabled placeholder="Result">
         </div>
-    </section>
 
-    <!-- Basic Calculator Section -->
-    <section class="basic-calculator">
-        <h2>Basic Calculator</h2>
-        <div class="calculator">
-            <input type="text" id="display" disabled />
-            <div class="buttons">
-                <button onclick="clearDisplay()">C</button>
-                <button onclick="appendToDisplay('7')">7</button>
-                <button onclick="appendToDisplay('8')">8</button>
-                <button onclick="appendToDisplay('9')">9</button>
-                <button onclick="appendToDisplay('/')">/</button>
-                <button onclick="appendToDisplay('4')">4</button>
-                <button onclick="appendToDisplay('5')">5</button>
-                <button onclick="appendToDisplay('6')">6</button>
-                <button onclick="appendToDisplay('*')">*</button>
-                <button onclick="appendToDisplay('1')">1</button>
-                <button onclick="appendToDisplay('2')">2</button>
-                <button onclick="appendToDisplay('3')">3</button>
-                <button onclick="appendToDisplay('-')">-</button>
-                <button onclick="appendToDisplay('0')">0</button>
-                <button onclick="calculate()">=</button>
-                <button onclick="appendToDisplay('+')">+</button>
-            </div>
+        <div class="sidebar">
+            <h3>Insert Functions/Symbols</h3>
+            <button onclick="insertSymbol('π')">π</button>
+            <button onclick="insertSymbol('√')">√</button>
+            <button onclick="insertSymbol('^')">^</button>
+            <button onclick="insertSymbol('sin')">sin</button>
+            <button onclick="insertSymbol('cos')">cos</button>
+            <button onclick="insertSymbol('tan')">tan</button>
         </div>
-    </section>
 
-    <!-- Physics Animation Section -->
-    <section class="physics-animation">
-        <h2>Physics Animation</h2>
-        <canvas id="physicsCanvas" width="400" height="400" style="border:1px solid #000;"></canvas>
-    </section>
-
-    <!-- Graphing Calculator Section -->
-    <section class="graphing-container">
-        <h2>Graphing Calculator</h2>
-        <div>
-            <input type="text" id="equation" placeholder="Enter an equation (e.g., x^2, sin(x))">
+        <div class="graph-container">
+            <h2>Graphing Calculator</h2>
+            <input type="text" id="graph-input" placeholder="Enter function (e.g., x^2)">
             <button onclick="plotGraph()">Graph</button>
+            <canvas id="graphCanvas" width="400" height="200"></canvas>
         </div>
-        <canvas id="graphCanvas" width="800" height="400" style="border:1px solid #000;"></canvas>
-    </section>
-
-    <!-- AI Chatbot Section -->
-    <section class="chat-container">
-        <h2>AI Chatbot</h2>
-        <div class="chatbox">
-            <div id="chat-output" class="chat-output"></div>
-            <input type="text" id="user-input" class="chat-input" placeholder="Ask a question...">
-            <button class="button" onclick="askQuestion()">Send</button>
-        </div>
-    </section>
+    </main>
 
     <footer>
         <p>Created by [Your Name]</p>
     </footer>
 
+    <script src="scripts.js"></script>
 </body>
 </html>
