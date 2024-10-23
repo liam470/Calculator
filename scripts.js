@@ -8,11 +8,6 @@ function calculate() {
     }
 }
 
-function insertSymbol(symbol) {
-    const inputField = document.getElementById('calc-input');
-    inputField.value += symbol; // Insert the symbol at the end of the input
-}
-
 function plotGraph() {
     const ctx = document.getElementById('graphCanvas').getContext('2d');
     const input = document.getElementById('graph-input').value;
@@ -62,4 +57,34 @@ function plotGraph() {
             }
         }
     });
+}
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('active');
+}
+
+function askChatbot() {
+    const userInput = document.getElementById('user-input').value;
+    const chatOutput = document.getElementById('chat-output');
+    
+    // Display user question
+    chatOutput.innerHTML += `<div>User: ${userInput}</div>`;
+    
+    // AI response (simple logic for demonstration)
+    let response;
+    if (userInput.toLowerCase().includes("solve") || userInput.toLowerCase().includes("calculate")) {
+        const equation = userInput.replace(/solve|calculate/i, '').trim();
+        try {
+            response = `Result: ${math.evaluate(equation)}`;
+        } catch (error) {
+            response = "Error in calculation.";
+        }
+    } else {
+        response = "I can help with math problems! Ask me to solve or calculate something.";
+    }
+
+    // Display AI response
+    chatOutput.innerHTML += `<div>AI: ${response}</div>`;
+    document.getElementById('user-input').value = ""; // Clear input field
 }
