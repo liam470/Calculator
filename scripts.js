@@ -152,3 +152,51 @@ function animateCubes() {
 }
 
 setup();
+// Matter.js setup and previous functions...
+
+function askQuestion() {
+    const userInput = document.getElementById('user-input').value;
+    const chatOutput = document.getElementById('chat-output');
+
+    if (userInput.trim() === "") {
+        return; // Do not send empty messages
+    }
+
+    const response = getResponse(userInput);
+    
+    // Display user input
+    chatOutput.innerHTML += `<div><strong>You:</strong> ${userInput}</div>`;
+    // Display chatbot response
+    chatOutput.innerHTML += `<div><strong>Chatbot:</strong> ${response}</div>`;
+    document.getElementById('user-input').value = ''; // Clear input
+
+    // Auto scroll to bottom
+    chatOutput.scrollTop = chatOutput.scrollHeight;
+}
+
+function getResponse(input) {
+    const lowerInput = input.toLowerCase();
+    if (lowerInput.includes("add") || lowerInput.includes("+")) {
+        return "To add two numbers, use the calculator above!";
+    } else if (lowerInput.includes("subtract") || lowerInput.includes("-")) {
+        return "To subtract two numbers, use the calculator above!";
+    } else if (lowerInput.includes("multiply") || lowerInput.includes("*")) {
+        return "To multiply two numbers, use the calculator above!";
+    } else if (lowerInput.includes("divide") || lowerInput.includes("/")) {
+        return "To divide two numbers, use the calculator above!";
+    } else if (lowerInput.includes("sin")) {
+        return "Use the sine function on the calculator for calculations.";
+    } else if (lowerInput.includes("cos")) {
+        return "Use the cosine function on the calculator for calculations.";
+    } else if (lowerInput.includes("tan")) {
+        return "Use the tangent function on the calculator for calculations.";
+    } else if (lowerInput.includes("help")) {
+        return "Ask about operations like add, subtract, multiply, divide, sin, cos, and tan!";
+    } else {
+        return "Sorry, I can't answer that. Try asking about math operations!";
+    }
+}
+
+// Initialize the physics simulation and other functions
+setup();
+
