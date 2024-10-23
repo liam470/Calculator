@@ -101,6 +101,7 @@ function animateCubes() {
         const cube = Bodies.rectangle(Math.random() * 350 + 25, Math.random() * 100 + 50, 30, 30, {
             restitution: 0.8, // Bounce when hitting the ground
             friction: 0.5, // Friction to help them come to rest
+            frictionAir: 1.0, // High air friction to limit sideways movement
             density: 0.04 // Density
         });
         cubes.push(cube);
