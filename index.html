@@ -151,3 +151,27 @@
     <script src="script.js"></script> <!-- Link to your JavaScript file -->
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphing Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Add Chart.js -->
+</head>
+<body>
+    <h1>Graphing Calculator</h1>
+    
+    <div>
+        <input type="text" id="equation" placeholder="Enter an equation (e.g., x^2, sin(x), etc.)" />
+        <button onclick="plotGraph()">Graph</button>
+    </div>
+
+    <canvas id="graphCanvas" width="800" height="400"></canvas> <!-- Canvas for the graph -->
+    
+    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
+
