@@ -216,3 +216,80 @@ footer {
     text-align: center;
     margin-top: 20px;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Showcase with Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>My Code Showcase</h1>
+    </header>
+
+    <section>
+        <h2>Code Example 1: Python Hello World</h2>
+        <pre>
+<code>
+def hello_world():
+    print("Hello, World!")
+</code>
+        </pre>
+    </section>
+
+    <section>
+        <h2>Code Example 2: Simple HTML Page</h2>
+        <pre>
+<code>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code>
+        </pre>
+    </section>
+
+    <section>
+        <h2>Simple Math Calculator</h2>
+        <form id="calculator">
+            <label for="num1">First Number:</label>
+            <input type="number" id="num1" name="num1" required>
+
+            <label for="num2">Second Number:</label>
+            <input type="number" id="num2" name="num2" required>
+
+            <label for="operation">Operation:</label>
+            <select id="operation" name="operation">
+                <option value="add">Add</option>
+                <option value="subtract">Subtract</option>
+                <option value="multiply">Multiply</option>
+                <option value="divide">Divide</option>
+            </select>
+
+            <button type="button" onclick="performCalculation()">Calculate</button>
+            <button type="button" onclick="animateCubes()">Play</button>
+        </form>
+
+        <p id="result"></p>
+    </section>
+
+    <section>
+        <h2>Physics Animation</h2>
+        <canvas id="physicsCanvas" width="400" height="400"></canvas>
+    </section>
+
+    <footer>
+        <p>Created by [Your Name]</p>
+    </footer>
+</body>
+</html>
+
