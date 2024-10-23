@@ -12,8 +12,11 @@ function setup() {
     engine = Engine.create();
     world = engine.world;
 
-    // Create a static ground body
-    const ground = Bodies.rectangle(200, canvas.height - groundHeight / 2, canvas.width, groundHeight, { isStatic: true });
+    // Create a static ground body with high friction
+    const ground = Bodies.rectangle(200, canvas.height - groundHeight / 2, canvas.width, groundHeight, { 
+        isStatic: true,
+        friction: 1 // Increase friction to prevent sliding
+    });
     World.add(world, ground);
 
     // Render setup
@@ -61,13 +64,18 @@ function performCalculation() {
 }
 
 function getRandomVibrantColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    
-    // Make sure the color is vibrant
-    const isBright = (r > 127 || g > 127 || b > 127);
-    return `rgb(${isBright ? r : r + 100}, ${isBright ? g : g + 100}, ${isBright ? b : b + 100})`;
+    // Create bright, vibrant colors
+    const colors = [
+        'rgb(255, 0, 0)',  // Red
+        'rgb(0, 255, 0)',  // Green
+        'rgb(0, 0, 255)',  // Blue
+        'rgb(255, 255, 0)', // Yellow
+        'rgb(255, 165, 0)', // Orange
+        'rgb(255, 20, 147)', // Deep Pink
+        'rgb(0, 255, 255)', // Cyan
+        'rgb(75, 0, 130)'   // Indigo
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
 }
 
 function animateCubes() {
@@ -76,7 +84,10 @@ function animateCubes() {
     cubes = [];
 
     // Re-add ground
-    const ground = Bodies.rectangle(200, canvas.height - groundHeight / 2, canvas.width, groundHeight, { isStatic: true });
+    const ground = Bodies.rectangle(200, canvas.height - groundHeight / 2, canvas.width, groundHeight, { 
+        isStatic: true,
+        friction: 1 // Increase friction to prevent sliding
+    });
     World.add(world, ground);
 
     const num1 = parseFloat(document.getElementById('num1').value);
@@ -110,13 +121,13 @@ function animateCubes() {
     for (let i = 0; i < count; i++) {
         const cube = Bodies.rectangle(Math.random() * 150 + 125, Math.random() * 100 + 50, 30, 30, {
             restitution: 0.5, // Lower restitution to prevent excessive bouncing
-            friction: 0.5, // Friction to help them come to rest
+            friction: 1, // Increase friction for better stopping
             frictionAir: 0.05, // Slight air friction for stability
             density: 0.04 // Increased density to prevent falling through
         });
         cube.color = getRandomVibrantColor(); // Assign a random vibrant color
-        cubes.push(cube);
         World.add(world, cube);
+        cubes.push(cube);
     }
 
     // Start the rendering loop
