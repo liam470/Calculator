@@ -45,3 +45,52 @@
     <script src="scripts.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Calculator with AI Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Math Calculator with AI Chatbot</h1>
+        <div class="sidebar-toggle" onclick="toggleSidebar()">
+            <img src="https://img.icons8.com/ios/50/000000/chat-bot.png" alt="AI Chatbot Icon" />
+        </div>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <input type="text" id="calc-input" placeholder="Type your equation here...">
+            <button onclick="calculate()">Calculate</button>
+            <input type="text" id="calc-result" disabled placeholder="Result">
+        </div>
+
+        <div class="graph-container">
+            <h2>Graphing</h2>
+            <input type="text" id="graph-input" placeholder="Enter function (e.g., x^2)">
+            <button onclick="plotGraph()">Graph</button>
+            <canvas id="graphCanvas" width="400" height="200"></canvas>
+        </div>
+    </main>
+
+    <aside class="sidebar">
+        <h3>AI Chatbot</h3>
+        <div class="chat-output" id="chat-output"></div>
+        <input type="text" id="user-input" placeholder="Ask a math question..." />
+        <button onclick="askChatbot()">Send</button>
+        <button onclick="toggleSidebar()">Close</button>
+    </aside>
+
+    <footer>
+        <p>Created by [Your Name]</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
+
