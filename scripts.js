@@ -20,16 +20,17 @@ function setup() {
     World.add(world, ground);
 
     // Render setup
-    Render.run(Render.create({
+    const render = Render.create({
         canvas: canvas,
         engine: engine,
         options: {
-            width: 400,
-            height: 400,
+            width: canvas.width,
+            height: canvas.height,
             wireframes: false // Show filled shapes
         }
-    }));
-
+    });
+    
+    Render.run(render);
     Engine.run(engine);
 }
 
@@ -151,8 +152,8 @@ function animateCubes() {
     }
 }
 
+// Initialize the physics simulation and other functions
 setup();
-// Matter.js setup and previous functions...
 
 function askQuestion() {
     const userInput = document.getElementById('user-input').value;
@@ -197,8 +198,7 @@ function getResponse(input) {
     }
 }
 
-// Initialize the physics simulation and other functions
-setup();
+// Basic Calculator Functions
 function appendToDisplay(value) {
     document.getElementById("display").value += value;
 }
@@ -210,9 +210,8 @@ function clearDisplay() {
 function calculate() {
     const display = document.getElementById("display");
     try {
-        display.value = eval(display.value);
+        display.value = eval(display.value); // Caution: eval can be dangerous if user input is not sanitized
     } catch {
         display.value = "Error";
     }
 }
-
