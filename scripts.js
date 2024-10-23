@@ -11,8 +11,8 @@ function setup() {
     engine = Engine.create();
     world = engine.world;
 
-    // Create a ground body
-    const ground = Bodies.rectangle(200, 400, 400, 10, { isStatic: true });
+    // Create a static ground body
+    const ground = Bodies.rectangle(200, 390, 400, 10, { isStatic: true });
     World.add(world, ground);
 
     // Render setup
@@ -65,7 +65,22 @@ function animateCubes() {
     cubes = [];
 
     // Re-add ground
-    const ground = Bodies.rectangle(200, 390, 400, 10, { isStatic: true }); // Adjusted the Y position to match the ground level
+    const ground = Bodies.rectangle(200, 390, 400, 10, { isStatic: true });
     World.add(world, ground);
 
-    const num1 = pars
+    const num1 = parseFloat(document.getElementById('num1').value);
+    const num2 = parseFloat(document.getElementById('num2').value);
+    const operation = document.getElementById('operation').value;
+
+    // Calculate how many cubes to create based on the result
+    let count = 0;
+    let result;
+
+    switch (operation) {
+        case "add":
+            result = num1 + num2;
+            count = Math.min(result, 20); // Limit number of cubes for visibility
+            break;
+        case "subtract":
+            result = num1 - num2;
+            count = Math.min(Math.abs(result), 20); // Limit 
