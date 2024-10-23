@@ -3,7 +3,6 @@ const { Engine, Render, World, Bodies } = Matter;
 
 let engine;
 let world;
-let cubes = [];
 const canvas = document.getElementById('physicsCanvas');
 const groundHeight = 10; // Height of the ground
 
@@ -92,45 +91,34 @@ function getRandomVibrantColor() {
 function animateCubes(num1, num2, operation) {
     // Clear previous cubes
     World.clear(world);
-    cubes = [];
-
-    // Re-add ground
     const ground = Bodies.rectangle(canvas.width / 2, canvas.height - groundHeight / 2, canvas.width, groundHeight, {
         isStatic: true,
-        friction: 1 // Increase friction to prevent sliding
+        friction: 1
     });
     World.add(world, ground);
 
     // Calculate how many cubes to create based on the result
     let count = 0;
-    let result;
-
     switch (operation) {
         case "add":
-            result = num1 + num2;
-            count = Math.min(result, 20); // Limit number of cubes for visibility
+            count = Math.min(num1 + num2, 20);
             break;
         case "subtract":
-            result = num1 - num2;
-            count = Math.min(Math.abs(result), 20); // Limit cubes for visibility
+            count = Math.min(Math.abs(num1 - num2), 20);
             break;
         case "multiply":
-            result = num1 * num2;
-            count = Math.min(result, 20); // Limit number of cubes for visibility
+            count = Math.min(num1 * num2, 20);
             break;
         case "divide":
-            result = num2 !== 0 ? num1 / num2 : 0;
-            count = Math.min(Math.round(result), 20); // Limit number of cubes for visibility
+            count = Math.min(Math.round(num1 / num2), 20);
             break;
         case "sin":
         case "cos":
         case "tan":
-            result = Math.abs(Math.round(Math.sin(num1 * (Math.PI / 180)) * 10));
-            count = Math.min(result, 20); // Limit number of cubes for visibility
+            count = Math.min(Math.abs(Math.round(Math.sin(num1 * (Math.PI / 180)) * 10)), 20);
             break;
         case "power":
-            result = Math.pow(num1, num2);
-            count = Math.min(Math.round(result), 20); // Limit number of cubes for visibility
+            count = Math.min(Math.round(Math.pow(num1, num2)), 20);
             break;
         default:
             count = 0;
@@ -146,7 +134,6 @@ function animateCubes(num1, num2, operation) {
             }
         });
         World.add(world, cube);
-        cubes.push(cube);
     }
 }
 
