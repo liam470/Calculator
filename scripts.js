@@ -1,18 +1,19 @@
 // Physics setup using Matter.js
-const { Engine, Render, World, Bodies, Body, Composite } = Matter;
+const { Engine, Render, World, Bodies } = Matter;
 
 let engine;
 let world;
 let cubes = [];
 const canvas = document.getElementById('physicsCanvas');
 const context = canvas.getContext('2d');
+const groundHeight = 10; // Height of the ground
 
 function setup() {
     engine = Engine.create();
     world = engine.world;
 
     // Create a static ground body
-    const ground = Bodies.rectangle(200, 390, 400, 10, { isStatic: true });
+    const ground = Bodies.rectangle(200, canvas.height - groundHeight / 2, canvas.width, groundHeight, { isStatic: true });
     World.add(world, ground);
 
     // Render setup
@@ -22,7 +23,7 @@ function setup() {
         options: {
             width: 400,
             height: 400,
-            wireframes: false,
+            wireframes: false, // Show filled shapes
         }
     }));
 
@@ -65,7 +66,7 @@ function animateCubes() {
     cubes = [];
 
     // Re-add ground
-    const ground = Bodies.rectangle(200, 390, 400, 10, { isStatic: true });
+    const ground = Bodies.rectangle(200, canvas.height - groundHeight / 2, canvas.width, groundHeight, { isStatic: true });
     World.add(world, ground);
 
     const num1 = parseFloat(document.getElementById('num1').value);
@@ -98,13 +99,15 @@ function animateCubes() {
     // Add cubes to the world
     for (let i = 0; i < count; i++) {
         const cube = Bodies.rectangle(Math.random() * 350 + 25, Math.random() * 100 + 50, 30, 30, {
-            restitution: 0.8 // This makes the cube bounce
+            restitution: 0.8, // Bounce when hitting the ground
+            friction: 0.5, // Friction to help them come to rest
+            density: 0.04 // Density
         });
         cubes.push(cube);
         World.add(world, cube);
     }
 
-    // Draw cubes and result above them
+    // Start the rendering loop
     drawCubes(result);
 }
 
@@ -113,7 +116,7 @@ function drawCubes(result) {
     
     // Draw the ground
     context.fillStyle = 'brown';
-    context.fillRect(0, 390, 400, 10);
+    context.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
 
     // Draw cubes
     for (const cube of cubes) {
@@ -123,9 +126,9 @@ function drawCubes(result) {
     }
 
     // Display the result at the top left corner
-    context.fillStyle = 'black';
-    context.font = '16px Arial';
-    context.clearRect(0, 0, 100, 30); // Clear previous result
+    context.fillStyle = 'green'; // Set text color to green
+    context.font = 'bold 16px Arial'; // Make the text bold
+    context.clearRect(0, 0, 200, 30); // Clear previous result
     context.fillText("Result: " + result, 10, 20);
 }
 
