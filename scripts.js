@@ -40,8 +40,8 @@ function plotGraph() {
             datasets: [{
                 label: 'Graph of ' + input,
                 data: dataPoints,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(106, 90, 205, 1)',
+                backgroundColor: 'rgba(106, 90, 205, 0.2)',
                 fill: true
             }]
         },
