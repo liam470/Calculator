@@ -2,11 +2,11 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f0f0f0;
 }
 
 header {
-    background: #35424a;
+    background: #6a5acd;
     color: #ffffff;
     padding: 10px 0;
     text-align: center;
@@ -14,7 +14,7 @@ header {
 
 main {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 20px;
 }
 
@@ -23,31 +23,36 @@ main {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
 }
 
 .sidebar {
-    background: #e2e2e2;
+    background: #e6e6fa;
     padding: 20px;
     border-radius: 5px;
     margin: 20px;
+    width: 20%;
 }
 
 input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
+    border: 1px solid #6a5acd;
+    border-radius: 5px;
 }
 
 button {
-    background: #35424a;
+    background: #6a5acd;
     color: white;
     border: none;
     padding: 10px;
     cursor: pointer;
-    margin: 5px;
+    margin: 5px 0;
     border-radius: 5px;
+    width: 100%;
 }
 
 button:hover {
-    background: #3c4b5a;
+    background: #7b68ee;
 }
