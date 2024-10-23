@@ -10,8 +10,6 @@ function setup() {
     world = engine.world;
 
     const canvas = document.getElementById('physicsCanvas');
-    const context = canvas.getContext('2d');
-
     const render = Render.create({
         canvas: canvas,
         engine: engine,
@@ -26,6 +24,36 @@ function setup() {
     Engine.run(engine);
 }
 
+function performCalculation() {
+    const num1 = parseFloat(document.getElementById('num1').value);
+    const num2 = parseFloat(document.getElementById('num2').value);
+    const operation = document.getElementById('operation').value;
+    let result;
+
+    if (isNaN(num1) || isNaN(num2)) {
+        result = "Please enter valid numbers.";
+    } else {
+        switch (operation) {
+            case "add":
+                result = num1 + num2;
+                break;
+            case "subtract":
+                result = num1 - num2;
+                break;
+            case "multiply":
+                result = num1 * num2;
+                break;
+            case "divide":
+                result = num2 !== 0 ? num1 / num2 : "Infinity";
+                break;
+            default:
+                result = "Unknown operation.";
+        }
+    }
+
+    document.getElementById('result').textContent = "Result: " + result;
+}
+
 function animateCubes() {
     const num1 = parseFloat(document.getElementById('num1').value);
     const num2 = parseFloat(document.getElementById('num2').value);
@@ -35,7 +63,7 @@ function animateCubes() {
     World.clear(world);
     cubes = [];
 
-    // Create cubes based on the calculation
+    // Calculate how many cubes to create based on the result
     let count = 0;
     let result;
 
@@ -64,7 +92,7 @@ function animateCubes() {
         cubes.push(cube);
         World.add(world, cube);
     }
-    
+
     document.getElementById('result').textContent = "Result: " + result;
 }
 
