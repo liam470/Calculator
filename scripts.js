@@ -139,3 +139,59 @@ function animateCubes(num1, num2, operation) {
 
 // Initialize the physics simulation
 setup();
+// Include mathjs for evaluating mathematical expressions
+const math = window.math;
+
+function plotGraph() {
+    const equation = document.getElementById('equation').value;
+
+    // Generate x and y values for the graph
+    const xValues = [];
+    const yValues = [];
+    for (let x = -10; x <= 10; x += 0.1) {
+        try {
+            // Evaluate the equation
+            const y = math.evaluate(equation.replace(/x/g, x));
+            xValues.push(x);
+            yValues.push(y);
+        } catch (error) {
+            console.error('Error evaluating equation:', error);
+        }
+    }
+
+    // Clear the existing graph
+    const ctx = document.getElementById('graphCanvas').getContext('2d');
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    // Create the chart
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: xValues,
+            datasets: [{
+                label: `Graph of ${equation}`,
+                data: yValues,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                fill: true,
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'X-axis'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Y-axis'
+                    }
+                }
+            }
+        }
+    });
+}
