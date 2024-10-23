@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stylish Calculator with Animation and Chatbot</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
-    <script defer src="scripts.js"></script>
+    <title>Calculator, Physics Animation, and Graphing</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS for styling -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script> <!-- Matter.js for Physics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for Graphing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.1.1/math.min.js"></script> <!-- Math.js for Equation Parsing -->
+    <script defer src="scripts.js"></script> <!-- Link to your JavaScript -->
 </head>
 <body>
     <header>
-        <h1>Stylish Calculator and Animation</h1>
+        <h1>Calculator, Physics Animation, and AI Chatbot</h1>
     </header>
 
+    <!-- Main Calculator Section -->
     <section class="calculator-container">
-        <h2>Calculator</h2>
+        <h2>Stylish Calculator</h2>
         <div class="calculator">
-            <input type="text" id="result" class="result" disabled>
+            <input type="text" id="result" class="result" disabled placeholder="Result">
             <div class="inputs">
                 <input type="number" id="num1" class="input" placeholder="First Number" required>
                 <input type="number" id="num2" class="input" placeholder="Second Number" required>
@@ -33,30 +36,12 @@
             </select>
             <div class="buttons">
                 <button class="button" onclick="performCalculation()">Calculate</button>
-                <button class="button" onclick="animateCubes()">Play</button>
+                <button class="button" onclick="animateCubes()">Play Physics</button>
             </div>
         </div>
     </section>
 
-    <section>
-        <h2>Physics Animation</h2>
-        <canvas id="physicsCanvas" width="400" height="400"></canvas>
-    </section>
-
-    <section class="chat-container">
-        <h2>AI Chatbot</h2>
-        <div class="chatbox">
-            <div id="chat-output" class="chat-output"></div>
-            <input type="text" id="user-input" class="chat-input" placeholder="Ask a question...">
-            <button class="button" onclick="askQuestion()">Send</button>
-        </div>
-    </section>
-
-    <footer>
-        <p>Created by [Your Name]</p>
-    </footer>
-    
-    <!-- Additional Calculator -->
+    <!-- Basic Calculator Section -->
     <section class="basic-calculator">
         <h2>Basic Calculator</h2>
         <div class="calculator">
@@ -82,96 +67,35 @@
         </div>
     </section>
 
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physics Calculator</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
-</head>
-<body>
-    <h1>Physics Calculator with Matter.js</h1>
-    <div>
-        <input type="number" id="num1" placeholder="Number 1" />
-        <input type="number" id="num2" placeholder="Number 2" />
-        <select id="operation">
-            <option value="add">Add</option>
-            <option value="subtract">Subtract</option>
-            <option value="multiply">Multiply</option>
-            <option value="divide">Divide</option>
-            <option value="sin">Sin</option>
-            <option value="cos">Cos</option>
-            <option value="tan">Tan</option>
-            <option value="power">Power</option>
-        </select>
-        <button onclick="performCalculation()">Calculate</button>
-        <input type="text" id="result" placeholder="Result" readonly />
-    </div>
-    <canvas id="physicsCanvas" width="400" height="400" style="border:1px solid #000;"></canvas>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physics Calculator with Graphing</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Add Chart.js -->
-</head>
-<body>
-    <h1>Physics Calculator with Matter.js and Graphing</h1>
-    <div>
-        <input type="number" id="num1" placeholder="Number 1" />
-        <input type="number" id="num2" placeholder="Number 2" />
-        <select id="operation">
-            <option value="add">Add</option>
-            <option value="subtract">Subtract</option>
-            <option value="multiply">Multiply</option>
-            <option value="divide">Divide</option>
-            <option value="sin">Sin</option>
-            <option value="cos">Cos</option>
-            <option value="tan">Tan</option>
-            <option value="power">Power</option>
-        </select>
-        <button onclick="performCalculation()">Calculate</button>
-        <input type="text" id="result" placeholder="Result" readonly />
-    </div>
+    <!-- Physics Animation Section -->
+    <section class="physics-animation">
+        <h2>Physics Animation</h2>
+        <canvas id="physicsCanvas" width="400" height="400" style="border:1px solid #000;"></canvas>
+    </section>
 
-    <canvas id="physicsCanvas" width="400" height="400" style="border:1px solid #000;"></canvas>
-    <canvas id="graphCanvas" width="400" height="200"></canvas> <!-- Add a canvas for the graph -->
-    
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+    <!-- Graphing Calculator Section -->
+    <section class="graphing-container">
+        <h2>Graphing Calculator</h2>
+        <div>
+            <input type="text" id="equation" placeholder="Enter an equation (e.g., x^2, sin(x))">
+            <button onclick="plotGraph()">Graph</button>
+        </div>
+        <canvas id="graphCanvas" width="800" height="400" style="border:1px solid #000;"></canvas>
+    </section>
+
+    <!-- AI Chatbot Section -->
+    <section class="chat-container">
+        <h2>AI Chatbot</h2>
+        <div class="chatbox">
+            <div id="chat-output" class="chat-output"></div>
+            <input type="text" id="user-input" class="chat-input" placeholder="Ask a question...">
+            <button class="button" onclick="askQuestion()">Send</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>Created by [Your Name]</p>
+    </footer>
+
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphing Calculator</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Add Chart.js -->
-</head>
-<body>
-    <h1>Graphing Calculator</h1>
-    
-    <div>
-        <input type="text" id="equation" placeholder="Enter an equation (e.g., x^2, sin(x), etc.)" />
-        <button onclick="plotGraph()">Graph</button>
-    </div>
-
-    <canvas id="graphCanvas" width="800" height="400"></canvas> <!-- Canvas for the graph -->
-    
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
-</body>
-</html>
-
