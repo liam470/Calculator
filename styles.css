@@ -1,12 +1,14 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-color: #eef2f3;
+    color: #333;
 }
 
 header {
-    background-color: #333;
+    background-color: #007bff;
     color: white;
-    padding: 10px 0;
+    padding: 20px;
     text-align: center;
 }
 
@@ -15,37 +17,91 @@ h1 {
 }
 
 section {
-    margin-bottom: 20px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
 }
 
-form {
-    margin: 20px 0;
+.calculator-container {
+    text-align: center;
 }
 
-label {
-    display: block;
-    margin: 5px 0;
+.calculator {
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f8f9fa;
 }
 
-input, select, button {
-    margin: 5px 0;
+.result {
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    text-align: right;
     padding: 5px;
-    font-size: 16px;
-}
-
-pre {
-    background-color: #f4f4f4;
-    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #007bff;
     border-radius: 5px;
-    overflow-x: auto;
+    outline: none;
 }
 
-code {
-    font-family: 'Courier New', Courier, monospace;
-    color: #2c3e50;
+.inputs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input {
+    width: 48%;
+    height: 40px;
+    font-size: 16px;
+    padding: 5px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    margin-right: 2%;
+    outline: none;
+}
+
+.input:last-child {
+    margin-right: 0;
+}
+
+.select {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    margin: 10px 0;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    outline: none;
+    background-color: #f8f9fa;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    width: 48%;
+    height: 40px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
 }
 
 footer {
     text-align: center;
     margin-top: 20px;
+    font-size: 14px;
 }
