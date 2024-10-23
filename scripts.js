@@ -83,4 +83,51 @@ function animateCubes() {
             break;
         case "subtract":
             result = num1 - num2;
-            count = Math.min(Math.abs(result), 20); // Limit 
+            count = Math.min(Math.abs(result), 20); // Limit cubes for visibility
+            break;
+        case "multiply":
+            result = num1 * num2;
+            count = Math.min(result, 20); // Limit number of cubes for visibility
+            break;
+        case "divide":
+            result = num2 !== 0 ? num1 / num2 : "Infinity";
+            count = Math.floor(result); // Limit cubes to an integer
+            break;
+    }
+
+    // Add cubes to the world
+    for (let i = 0; i < count; i++) {
+        const cube = Bodies.rectangle(Math.random() * 350 + 25, Math.random() * 100 + 50, 30, 30, {
+            restitution: 0.8 // This makes the cube bounce
+        });
+        cubes.push(cube);
+        World.add(world, cube);
+    }
+
+    // Draw cubes and result above them
+    drawCubes(result);
+}
+
+function drawCubes(result) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw the ground
+    context.fillStyle = 'brown';
+    context.fillRect(0, 390, 400, 10);
+
+    // Draw cubes
+    for (const cube of cubes) {
+        const { position } = cube;
+        context.fillStyle = 'blue';
+        context.fillRect(position.x - 15, position.y - 15, 30, 30);
+    }
+
+    // Display the result at the top left corner
+    context.fillStyle = 'black';
+    context.font = '16px Arial';
+    context.clearRect(0, 0, 100, 30); // Clear previous result
+    context.fillText("Result: " + result, 10, 20);
+}
+
+// Initialize the physics world
+window.onload = setup;
