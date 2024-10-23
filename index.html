@@ -84,3 +84,136 @@ git add .
 git commit -m "Initial commit"
 git remote add origin <your-repository-url>
 git push -u origin master
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Showcase with Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>My Code Showcase</h1>
+    </header>
+
+    <section>
+        <h2>Code Example: Simple Calculator</h2>
+        <form id="calculator">
+            <label for="num1">First Number:</label>
+            <input type="number" id="num1" name="num1" required>
+            
+            <label for="num2">Second Number:</label>
+            <input type="number" id="num2" name="num2" required>
+            
+            <label for="operation">Operation:</label>
+            <select id="operation" name="operation">
+                <option value="add">Add</option>
+                <option value="subtract">Subtract</option>
+                <option value="multiply">Multiply</option>
+                <option value="divide">Divide</option>
+            </select>
+
+            <button type="button" onclick="performCalculation()">Calculate</button>
+        </form>
+
+        <p id="result"></p>
+    </section>
+
+    <footer>
+        <p>Created by [Your Name]</p>
+    </footer>
+</body>
+</html>
+2. JavaScript code (scripts.js)
+This JavaScript file contains the logic to perform the math operations based on user input.
+
+javascript
+Copy code
+function performCalculation() {
+    const num1 = parseFloat(document.getElementById('num1').value);
+    const num2 = parseFloat(document.getElementById('num2').value);
+    const operation = document.getElementById('operation').value;
+    let result;
+
+    if (isNaN(num1) || isNaN(num2)) {
+        result = "Please enter valid numbers.";
+    } else {
+        switch (operation) {
+            case "add":
+                result = num1 + num2;
+                break;
+            case "subtract":
+                result = num1 - num2;
+                break;
+            case "multiply":
+                result = num1 * num2;
+                break;
+            case "divide":
+                result = num1 / num2;
+                break;
+            default:
+                result = "Unknown operation.";
+        }
+    }
+
+    document.getElementById('result').textContent = "Result: " + result;
+}
+3. Updated CSS code (styles.css)
+This file is the same as before but includes styling for the form.
+
+css
+Copy code
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+form {
+    margin: 20px 0;
+}
+
+label {
+    display: block;
+    margin: 5px 0;
+}
+
+input, select, button {
+    margin: 5px 0;
+    padding: 5px;
+    font-size: 16px;
+}
+
+pre {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #2c3e50;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
