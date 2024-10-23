@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Showcase with Calculator</title>
+    <title>Stylish Calculator with Animation</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
     <script defer src="scripts.js"></script>
 </head>
 <body>
     <header>
-        <h1>My Code Showcase</h1>
+        <h1>Stylish Calculator and Animation</h1>
     </header>
 
-    <section>
-        <h2>Simple Math Calculator</h2>
-        <form id="calculator">
-            <label for="num1">First Number:</label>
-            <input type="number" id="num1" name="num1" required>
-
-            <label for="num2">Second Number:</label>
-            <input type="number" id="num2" name="num2" required>
-
-            <label for="operation">Operation:</label>
-            <select id="operation" name="operation">
+    <section class="calculator-container">
+        <h2>Calculator</h2>
+        <div class="calculator">
+            <input type="text" id="result" class="result" disabled>
+            <div class="inputs">
+                <input type="number" id="num1" class="input" placeholder="First Number" required>
+                <input type="number" id="num2" class="input" placeholder="Second Number" required>
+            </div>
+            <select id="operation" class="select">
                 <option value="add">Add</option>
                 <option value="subtract">Subtract</option>
                 <option value="multiply">Multiply</option>
@@ -33,12 +31,11 @@
                 <option value="tan">Tan</option>
                 <option value="power">Exponentiation</option>
             </select>
-
-            <button type="button" onclick="performCalculation()">Calculate</button>
-            <button type="button" onclick="animateCubes()">Play</button>
-        </form>
-
-        <p id="result"></p>
+            <div class="buttons">
+                <button class="button" onclick="performCalculation()">Calculate</button>
+                <button class="button" onclick="animateCubes()">Play</button>
+            </div>
+        </div>
     </section>
 
     <section>
