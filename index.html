@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Calculator and Graphing Tool</title>
+    <title>Minimalist Math Calculator</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
-        <h1>Math Calculator and Graphing Tool</h1>
+        <h1>Math Calculator</h1>
     </header>
 
     <main>
         <div class="calculator-container">
-            <h2>Calculator</h2>
             <input type="text" id="calc-input" placeholder="Type your equation here...">
             <button onclick="calculate()">Calculate</button>
             <input type="text" id="calc-result" disabled placeholder="Result">
@@ -32,7 +31,7 @@
         </div>
 
         <div class="graph-container">
-            <h2>Graphing Calculator</h2>
+            <h2>Graphing</h2>
             <input type="text" id="graph-input" placeholder="Enter function (e.g., x^2)">
             <button onclick="plotGraph()">Graph</button>
             <canvas id="graphCanvas" width="400" height="200"></canvas>
