@@ -60,13 +60,14 @@ function performCalculation() {
     document.getElementById('result').textContent = "Result: " + result;
 }
 
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+function getRandomVibrantColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    
+    // Make sure the color is vibrant
+    const isBright = (r > 127 || g > 127 || b > 127);
+    return `rgb(${isBright ? r : r + 100}, ${isBright ? g : g + 100}, ${isBright ? b : b + 100})`;
 }
 
 function animateCubes() {
@@ -107,13 +108,13 @@ function animateCubes() {
 
     // Add cubes to the world
     for (let i = 0; i < count; i++) {
-        const cube = Bodies.rectangle(Math.random() * 350 + 25, Math.random() * 100 + 50, 30, 30, {
-            restitution: 0.6, // Adjusted to prevent high bounces
+        const cube = Bodies.rectangle(Math.random() * 150 + 125, Math.random() * 100 + 50, 30, 30, {
+            restitution: 0.5, // Lower restitution to prevent excessive bouncing
             friction: 0.5, // Friction to help them come to rest
-            frictionAir: 0.1, // Slight air friction for stability
+            frictionAir: 0.05, // Slight air friction for stability
             density: 0.04 // Increased density to prevent falling through
         });
-        cube.color = getRandomColor(); // Assign a random vibrant color
+        cube.color = getRandomVibrantColor(); // Assign a random vibrant color
         cubes.push(cube);
         World.add(world, cube);
     }
