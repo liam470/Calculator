@@ -1,94 +1,3 @@
-const Z = [
-    [[1, 1, 0],
-     [0, 1, 1],
-     [0, 0, 0]],
-
-    [[0, 0, 1],
-     [0, 1, 1],
-     [0, 1, 0]]
-];
-
-const S = [
-    [[0, 1, 1],
-     [1, 1, 0],
-     [0, 0, 0]],
-
-    [[0, 1, 0],
-     [0, 1, 1],
-     [0, 0, 1]]
-];
-
-const T = [
-    [[0, 1, 0],
-     [1, 1, 1],
-     [0, 0, 0]],
-
-    [[0, 1, 0],
-     [0, 1, 1],
-     [0, 1, 0]],
-
-    [[0, 0, 0],
-     [1, 1, 1],
-     [0, 1, 0]],
-
-    [[0, 1, 0],
-     [1, 1, 0],
-     [0, 1, 0]]
-];
-
-const O = [
-    [[1, 1],
-     [1, 1]]
-];
-
-const L = [
-    [[1, 0, 0],
-     [1, 1, 1],
-     [0, 0, 0]],
-
-    [[0, 1, 1],
-     [0, 1, 0],
-     [0, 1, 0]],
-
-    [[0, 0, 0],
-     [1, 1, 1],
-     [0, 0, 1]],
-
-    [[0, 1, 0],
-     [0, 1, 0],
-     [1, 1, 0]]
-];
-
-const I = [
-    [[0, 0, 0, 0],
-     [1, 1, 1, 1],
-     [0, 0, 0, 0],
-     [0, 0, 0, 0]],
-
-    [[0, 1, 0, 0],
-     [0, 1, 0, 0],
-     [0, 1, 0, 0],
-     [0, 1, 0, 0]]
-];
-
-const J = [
-    [[0, 0, 1],
-     [1, 1, 1],
-     [0, 0, 0]],
-
-    [[0, 1, 0],
-     [0, 1, 0],
-     [0, 1, 1]],
-
-    [[0, 0, 0],
-     [1, 1, 1],
-     [1, 0, 0]],
-
-    [[1, 1, 0],
-     [0, 1, 0],
-     [0, 1, 0]]
-];
-
 const canvas = document.getElementById("tetris");
 const context = canvas.getContext("2d");
 
@@ -124,19 +33,97 @@ function drawBoard() {
 }
 drawBoard();
 
-// Tetris shapes and colors
-const pieces = [
-    [Z, "red"],
-    [S, "green"],
-    [T, "purple"],
-    [O, "yellow"],
-    [L, "orange"],
-    [I, "cyan"],
-    [J, "blue"]
+// Tetromino shapes
+const Z = [
+    [[1, 1, 0],
+     [0, 1, 1],
+     [0, 0, 0]],
+    [[0, 0, 1],
+     [0, 1, 1],
+     [0, 1, 0]]
+];
+
+const S = [
+    [[0, 1, 1],
+     [1, 1, 0],
+     [0, 0, 0]],
+    [[0, 1, 0],
+     [0, 1, 1],
+     [0, 0, 1]]
+];
+
+const T = [
+    [[0, 1, 0],
+     [1, 1, 1],
+     [0, 0, 0]],
+    [[0, 1, 0],
+     [0, 1, 1],
+     [0, 1, 0]],
+    [[0, 0, 0],
+     [1, 1, 1],
+     [0, 1, 0]],
+    [[0, 1, 0],
+     [1, 1, 0],
+     [0, 1, 0]]
+];
+
+const O = [
+    [[1, 1],
+     [1, 1]]
+];
+
+const L = [
+    [[1, 0, 0],
+     [1, 1, 1],
+     [0, 0, 0]],
+    [[0, 1, 1],
+     [0, 1, 0],
+     [0, 1, 0]],
+    [[0, 0, 0],
+     [1, 1, 1],
+     [0, 0, 1]],
+    [[0, 1, 0],
+     [0, 1, 0],
+     [1, 1, 0]]
+];
+
+const I = [
+    [[0, 0, 0, 0],
+     [1, 1, 1, 1],
+     [0, 0, 0, 0],
+     [0, 0, 0, 0]],
+    [[0, 1, 0, 0],
+     [0, 1, 0, 0],
+     [0, 1, 0, 0],
+     [0, 1, 0, 0]]
+];
+
+const J = [
+    [[0, 0, 1],
+     [1, 1, 1],
+     [0, 0, 0]],
+    [[0, 1, 0],
+     [0, 1, 0],
+     [0, 1, 1]],
+    [[0, 0, 0],
+     [1, 1, 1],
+     [1, 0, 0]],
+    [[1, 1, 0],
+     [0, 1, 0],
+     [0, 1, 0]]
 ];
 
 // Random piece
 function randomPiece() {
+    const pieces = [
+        [Z, "red"],
+        [S, "green"],
+        [T, "purple"],
+        [O, "yellow"],
+        [L, "orange"],
+        [I, "cyan"],
+        [J, "blue"]
+    ];
     let r = Math.floor(Math.random() * pieces.length);
     return new Piece(pieces[r][0], pieces[r][1]);
 }
@@ -148,7 +135,7 @@ function Piece(tetromino, color) {
     this.tetrominoN = 0; // Initial rotation
     this.activeTetromino = this.tetromino[this.tetrominoN];
     this.x = 3;
-    this.y = -2;
+    this.y = -2; // Start above the board
 }
 
 // Draw piece
@@ -252,7 +239,7 @@ Piece.prototype.lock = function () {
             isRowFull = isRowFull && board[r][c] !== empty;
         }
         if (isRowFull) {
-            for (let y = r; y > 1; y--) {
+            for (let y = r; y > 0; y--) {
                 for (let c = 0; c < col; c++) {
                     board[y][c] = board[y - 1][c];
                 }
@@ -260,11 +247,9 @@ Piece.prototype.lock = function () {
             for (let c = 0; c < col; c++) {
                 board[0][c] = empty;
             }
-            score += 10;
         }
     }
     drawBoard();
-    document.getElementById("score").innerHTML = "Score: " + score;
 };
 
 // Control the piece
@@ -282,21 +267,4 @@ function CONTROL(event) {
 }
 
 // Start the game
-let p = randomPiece();
-let score = 0;
-let gameOver = false;
-
-function drop() {
-    let now = Date.now();
-    let delta = now - dropStart;
-    if (delta > 1000) {
-        p.moveDown();
-        dropStart = Date.now();
-    }
-    if (!gameOver) {
-        requestAnimationFrame(drop);
-    }
-}
-
-let dropStart = Date.now();
-drop();
+let p = randomPiece
