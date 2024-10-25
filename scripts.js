@@ -31,118 +31,36 @@ function drawBoard() {
         }
     }
 }
-drawBoard();
 
 // Tetromino shapes
-const Z = [
-    [[1, 1, 0],
-     [0, 1, 1],
-     [0, 0, 0]],
-    [[0, 0, 1],
-     [0, 1, 1],
-     [0, 1, 0]]
-];
-
-const S = [
-    [[0, 1, 1],
-     [1, 1, 0],
-     [0, 0, 0]],
-    [[0, 1, 0],
-     [0, 1, 1],
-     [0, 0, 1]]
-];
-
-const T = [
-    [[0, 1, 0],
-     [1, 1, 1],
-     [0, 0, 0]],
-    [[0, 1, 0],
-     [0, 1, 1],
-     [0, 1, 0]],
-    [[0, 0, 0],
-     [1, 1, 1],
-     [0, 1, 0]],
-    [[0, 1, 0],
-     [1, 1, 0],
-     [0, 1, 0]]
-];
-
-const O = [
-    [[1, 1],
-     [1, 1]]
-];
-
-const L = [
-    [[1, 0, 0],
-     [1, 1, 1],
-     [0, 0, 0]],
-    [[0, 1, 1],
-     [0, 1, 0],
-     [0, 1, 0]],
-    [[0, 0, 0],
-     [1, 1, 1],
-     [0, 0, 1]],
-    [[0, 1, 0],
-     [0, 1, 0],
-     [1, 1, 0]]
-];
-
-const I = [
-    [[0, 0, 0, 0],
-     [1, 1, 1, 1],
-     [0, 0, 0, 0],
-     [0, 0, 0, 0]],
-    [[0, 1, 0, 0],
-     [0, 1, 0, 0],
-     [0, 1, 0, 0],
-     [0, 1, 0, 0]]
-];
-
-const J = [
-    [[0, 0, 1],
-     [1, 1, 1],
-     [0, 0, 0]],
-    [[0, 1, 0],
-     [0, 1, 0],
-     [0, 1, 1]],
-    [[0, 0, 0],
-     [1, 1, 1],
-     [1, 0, 0]],
-    [[1, 1, 0],
-     [0, 1, 0],
-     [0, 1, 0]]
+const pieces = [
+    { shape: [[1, 1, 0], [0, 1, 1]], color: "red" }, // Z shape
+    { shape: [[0, 1, 1], [1, 1, 0]], color: "green" }, // S shape
+    { shape: [[0, 1, 0], [1, 1, 1]], color: "purple" }, // T shape
+    { shape: [[1, 1], [1, 1]], color: "yellow" }, // O shape
+    { shape: [[1, 0, 0], [1, 1, 1]], color: "orange" }, // L shape
+    { shape: [[0, 1, 0], [0, 1, 0], [0, 1, 1]], color: "cyan" }, // I shape
+    { shape: [[0, 0, 1], [1, 1, 1]], color: "blue" } // J shape
 ];
 
 // Random piece
 function randomPiece() {
-    const pieces = [
-        [Z, "red"],
-        [S, "green"],
-        [T, "purple"],
-        [O, "yellow"],
-        [L, "orange"],
-        [I, "cyan"],
-        [J, "blue"]
-    ];
-    let r = Math.floor(Math.random() * pieces.length);
-    return new Piece(pieces[r][0], pieces[r][1]);
+    return pieces[Math.floor(Math.random() * pieces.length)];
 }
 
 // Piece constructor
-function Piece(tetromino, color) {
-    this.tetromino = tetromino;
-    this.color = color;
-    this.tetrominoN = 0; // Initial rotation
-    this.activeTetromino = this.tetromino[this.tetrominoN];
+function Piece(tetromino) {
+    this.tetromino = tetromino.shape;
+    this.color = tetromino.color;
     this.x = 3;
     this.y = -2; // Start above the board
 }
 
 // Draw piece
 Piece.prototype.draw = function () {
-    for (let r = 0; r < this.activeTetromino.length; r++) {
-        for (let c = 0; c < this.activeTetromino.length; c++) {
-            if (this.activeTetromino[r][c]) {
+    for (let r = 0; r < this.tetromino.length; r++) {
+        for (let c = 0; c < this.tetromino[r].length; c++) {
+            if (this.tetromino[r][c]) {
                 drawSquare(this.x + c, this.y + r, this.color);
             }
         }
@@ -151,22 +69,20 @@ Piece.prototype.draw = function () {
 
 // Undraw piece
 Piece.prototype.unDraw = function () {
-    for (let r = 0; r < this.activeTetromino.length; r++) {
-        for (let c = 0; c < this.activeTetromino.length; c++) {
-            if (this.activeTetromino[r][c]) {
+    for (let r = 0; r < this.tetromino.length; r++) {
+        for (let c = 0; c < this.tetromino[r].length; c++) {
+            if (this.tetromino[r][c]) {
                 drawSquare(this.x + c, this.y + r, empty);
             }
         }
     }
 };
 
-// Collision detection
-Piece.prototype.collision = function (x, y, piece) {
-    for (let r = 0; r < piece.length; r++) {
-        for (let c = 0; c < piece.length; c++) {
-            if (!piece[r][c]) {
-                continue;
-            }
+// Check for collisions
+Piece.prototype.collision = function (x, y) {
+    for (let r = 0; r < this.tetromino.length; r++) {
+        for (let c = 0; c < this.tetromino[r].length; c++) {
+            if (!this.tetromino[r][c]) continue;
             let newX = this.x + c + x;
             let newY = this.y + r + y;
             if (newX < 0 || newX >= col || newY >= row || (newY >= 0 && board[newY][newX] !== empty)) {
@@ -179,19 +95,19 @@ Piece.prototype.collision = function (x, y, piece) {
 
 // Move down
 Piece.prototype.moveDown = function () {
-    if (!this.collision(0, 1, this.activeTetromino)) {
+    if (!this.collision(0, 1)) {
         this.unDraw();
         this.y++;
         this.draw();
     } else {
         this.lock();
-        p = randomPiece();
+        p = new Piece(randomPiece());
     }
 };
 
 // Move right
 Piece.prototype.moveRight = function () {
-    if (!this.collision(1, 0, this.activeTetromino)) {
+    if (!this.collision(1, 0)) {
         this.unDraw();
         this.x++;
         this.draw();
@@ -200,39 +116,23 @@ Piece.prototype.moveRight = function () {
 
 // Move left
 Piece.prototype.moveLeft = function () {
-    if (!this.collision(-1, 0, this.activeTetromino)) {
+    if (!this.collision(-1, 0)) {
         this.unDraw();
         this.x--;
         this.draw();
     }
 };
 
-// Rotate
-Piece.prototype.rotate = function () {
-    let nextPattern = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
-    if (!this.collision(0, 0, nextPattern)) {
-        this.unDraw();
-        this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length;
-        this.activeTetromino = this.tetromino[this.tetrominoN];
-        this.draw();
-    }
-};
-
 // Lock piece
 Piece.prototype.lock = function () {
-    for (let r = 0; r < this.activeTetromino.length; r++) {
-        for (let c = 0; c < this.activeTetromino.length; c++) {
-            if (this.activeTetromino[r][c]) {
-                if (this.y + r < 0) {
-                    alert("Game Over!");
-                    gameOver = true;
-                    return;
-                }
+    for (let r = 0; r < this.tetromino.length; r++) {
+        for (let c = 0; c < this.tetromino[r].length; c++) {
+            if (this.tetromino[r][c]) {
                 board[this.y + r][this.x + c] = this.color;
             }
         }
     }
-    // Check for lines
+    // Check for completed rows
     for (let r = row - 1; r >= 0; r--) {
         let isFull = true;
         for (let c = 0; c < col; c++) {
@@ -248,7 +148,8 @@ Piece.prototype.lock = function () {
     }
 };
 
-let p = randomPiece();
+// Create the first piece
+let p = new Piece(randomPiece());
 p.draw();
 
 function drop() {
@@ -260,7 +161,6 @@ function drop() {
 
 drop();
 
-// Control the piece
 document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
         p.moveLeft();
