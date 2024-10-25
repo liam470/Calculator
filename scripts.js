@@ -224,51 +224,32 @@ Piece.prototype.lock = function () {
         for (let c = 0; c < this.activeTetromino.length; c++) {
             if (this.activeTetromino[r][c]) {
                 if (this.y + r < 0) {
-                    alert("Game Over");
+                    alert("Game Over!");
                     gameOver = true;
-                    break;
+                    return;
                 }
                 board[this.y + r][this.x + c] = this.color;
             }
         }
     }
-    // Remove full rows
-    for (let r = 0; r < row; r++) {
-        let isRowFull = true;
+    // Check for lines
+    for (let r = row - 1; r >= 0; r--) {
+        let isFull = true;
         for (let c = 0; c < col; c++) {
-            isRowFull = isRowFull && board[r][c] !== empty;
+            if (board[r][c] === empty) {
+                isFull = false;
+                break;
+            }
         }
-        if (isRowFull) {
-            for (let y = r; y > 0; y--) {
-                for (let c = 0; c < col; c++) {
-                    board[y][c] = board[y - 1][c];
-                }
-            }
-            for (let c = 0; c < col; c++) {
-                board[0][c] = empty;
-            }
+        if (isFull) {
+            board.splice(r, 1);
+            board.unshift(new Array(col).fill(empty));
         }
     }
-    drawBoard();
 };
 
-// Control the piece
-document.addEventListener("keydown", CONTROL);
-function CONTROL(event) {
-    if (event.keyCode === 37) {
-        p.moveLeft();
-    } else if (event.keyCode === 38) {
-        p.rotate();
-    } else if (event.keyCode === 39) {
-        p.moveRight();
-    } else if (event.keyCode === 40) {
-        p.moveDown();
-    }
-}
-
-// Start the game
 let p = randomPiece();
-let gameOver = false;
+p.draw();
 
 function drop() {
     if (!gameOver) {
@@ -278,3 +259,16 @@ function drop() {
 }
 
 drop();
+
+// Control the piece
+document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+        p.moveLeft();
+    } else if (event.key === "ArrowRight") {
+        p.moveRight();
+    } else if (event.key === "ArrowDown") {
+        p.moveDown();
+    } else if (event.key === "ArrowUp") {
+        p.rotate();
+    }
+});
