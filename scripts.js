@@ -267,4 +267,14 @@ function CONTROL(event) {
 }
 
 // Start the game
-let p = randomPiece
+let p = randomPiece();
+let gameOver = false;
+
+function drop() {
+    if (!gameOver) {
+        p.moveDown();
+    }
+    setTimeout(drop, 1000);
+}
+
+drop();
