@@ -3,26 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetris Game</title>
+    <title>BlockBlast Game</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: white;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            background-color: #f0f0f0;
+            height: 100vh;
         }
         canvas {
-            border: 1px solid #000;
-            background-color: #fff;
+            border: 2px solid #fff;
+            background-color: #333;
         }
-        h1 {
-            font-size: 24px;
+        .game-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>TETRIS GAME</h1>
-    <canvas id="tetris" width="300" height="600"></canvas>
-    <script src="script.js"></script>
+    <div class="game-info">
+        Score: <span id="score">0</span>
+    </div>
+    <canvas id="gameCanvas" width="480" height="320"></canvas>
+    <script src="scripts.js"></script>
 </body>
 </html>
