@@ -1,144 +1,115 @@
-// Select the canvas and context
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+// Initial game settings
+let playerElixir = 10;
+let opponentElixir = 10;
+let playerUnits = [];
+let opponentUnits = [];
 
-// Game settings
-const paddleWidth = 75;
-const paddleHeight = 10;
-const ballRadius = 8;
-const brickRowCount = 5;
-const brickColumnCount = 9;
-const brickWidth = 50;
-const brickHeight = 20;
-const brickPadding = 10;
-const brickOffsetTop = 30;
-const brickOffsetLeft = 30;
+const elixirCost = 3; // Cost of deploying each unit
+const maxUnits = 5; // Max number of units that can be deployed at once
 
-let score = 0;
-let isGameOver = false;
+// DOM Elements
+const playerElixirElement = document.getElementById('playerElixir');
+const opponentElixirElement = document.getElementById('opponentElixir');
+const playerUnitsElement = document.getElementById('playerUnits');
+const opponentUnitsElement = document.getElementById('opponentUnits');
+const restartButton = document.getElementById('restartButton');
 
-// Paddle and Ball positions
-let paddleX = (canvas.width - paddleWidth) / 2;
-let ballX = canvas.width / 2;
-let ballY = canvas.height - 30;
-let ballDX = 2;
-let ballDY = -2;
+// Rock, Paper, Scissors units
+const units = {
+    rock: { name: "Rock", color: "rock", beats: "scissors", role: "defense" },
+    paper: { name: "Paper", color: "paper", beats: "rock", role: "balanced" },
+    scissors: { name: "Scissors", color: "scissors", beats: "paper", role: "speed" }
+};
 
-// Create the bricks
-let bricks = [];
-for (let c = 0; c < brickColumnCount; c++) {
-    bricks[c] = [];
-    for (let r = 0; r < brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1 };
+// Add event listeners to buttons
+document.getElementById('rockButton').addEventListener('click', () => deployUnit('rock'));
+document.getElementById('paperButton').addEventListener('click', () => deployUnit('paper'));
+document.getElementById('scissorsButton').addEventListener('click', () => deployUnit('scissors'));
+
+restartButton.addEventListener('click', restartGame);
+
+// Deploy units
+function deployUnit(unitType) {
+    if (playerElixir >= elixirCost && playerUnits.length < maxUnits) {
+        playerElixir -= elixirCost;
+        updateElixirDisplay();
+        const unit = units[unitType];
+        playerUnits.push(unit);
+        renderPlayerUnits();
+        opponentTurn();
     }
 }
 
-// Event listener for moving paddle
-document.addEventListener('mousemove', mouseMoveHandler, false);
-
-function mouseMoveHandler(e) {
-    const relativeX = e.clientX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < canvas.width) {
-        paddleX = relativeX - paddleWidth / 2;
+// Opponent's turn to deploy unit
+function opponentTurn() {
+    if (opponentElixir >= elixirCost && opponentUnits.length < maxUnits) {
+        opponentElixir -= elixirCost;
+        updateElixirDisplay();
+        const randomUnitType = getRandomUnit();
+        const unit = units[randomUnitType];
+        opponentUnits.push(unit);
+        renderOpponentUnits();
+        checkBattle();
     }
 }
 
-// Draw the paddle
-function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = '#0095DD';
-    ctx.fill();
-    ctx.closePath();
+// Random unit selection for opponent
+function getRandomUnit() {
+    const unitTypes = ['rock', 'paper', 'scissors'];
+    return unitTypes[Math.floor(Math.random() * unitTypes.length)];
 }
 
-// Draw the ball
-function drawBall() {
-    ctx.beginPath();
-    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-    ctx.fillStyle = '#0095DD';
-    ctx.fill();
-    ctx.closePath();
+// Render player units
+function renderPlayerUnits() {
+    playerUnitsElement.innerHTML = "";
+    playerUnits.forEach(unit => {
+        const div = document.createElement('div');
+        div.classList.add('unit', unit.color);
+        div.textContent = unit.name;
+        playerUnitsElement.appendChild(div);
+    });
 }
 
-// Draw the bricks
-function drawBricks() {
-    for (let c = 0; c < brickColumnCount; c++) {
-        for (let r = 0; r < brickRowCount; r++) {
-            if (bricks[c][r].status === 1) {
-                const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-                const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-                bricks[c][r].x = brickX;
-                bricks[c][r].y = brickY;
-
-                ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = '#0095DD';
-                ctx.fill();
-                ctx.closePath();
-            }
-        }
-    }
+// Render opponent units
+function renderOpponentUnits() {
+    opponentUnitsElement.innerHTML = "";
+    opponentUnits.forEach(unit => {
+        const div = document.createElement('div');
+        div.classList.add('unit', unit.color);
+        div.textContent = unit.name;
+        opponentUnitsElement.appendChild(div);
+    });
 }
 
-// Detect collision with bricks
-function collisionDetection() {
-    for (let c = 0; c < brickColumnCount; c++) {
-        for (let r = 0; r < brickRowCount; r++) {
-            const b = bricks[c][r];
-            if (b.status === 1) {
-                if (ballX > b.x && ballX < b.x + brickWidth && ballY > b.y && ballY < b.y + brickHeight) {
-                    ballDY = -ballDY;
-                    b.status = 0;
-                    score++;
-                    if (score === brickRowCount * brickColumnCount) {
-                        alert("You win, congratulations!");
-                        document.location.reload();
-                    }
-                }
-            }
-        }
-    }
-}
+// Check if there is a battle outcome
+function checkBattle() {
+    if (playerUnits.length > 0 && opponentUnits.length > 0) {
+        const playerUnit = playerUnits[playerUnits.length - 1];
+        const opponentUnit = opponentUnits[opponentUnits.length - 1];
 
-// Draw the score
-function drawScore() {
-    document.getElementById('score').innerText = score;
-}
-
-// Draw everything
-function draw() {
-    if (isGameOver) {
-        alert("Game Over");
-        document.location.reload();
-        return;
-    }
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    drawScore();
-    collisionDetection();
-
-    if (ballX + ballDX > canvas.width - ballRadius || ballX + ballDX < ballRadius) {
-        ballDX = -ballDX;
-    }
-    if (ballY + ballDY < ballRadius) {
-        ballDY = -ballDY;
-    } else if (ballY + ballDY > canvas.height - ballRadius) {
-        if (ballX > paddleX && ballX < paddleX + paddleWidth) {
-            ballDY = -ballDY;
+        if (playerUnit.beats === opponentUnit.name.toLowerCase()) {
+            alert("Player wins this battle!");
+        } else if (opponentUnit.beats === playerUnit.name.toLowerCase()) {
+            alert("Opponent wins this battle!");
         } else {
-            isGameOver = true;
+            alert("It's a draw!");
         }
     }
-
-    ballX += ballDX;
-    ballY += ballDY;
-
-    requestAnimationFrame(draw);
 }
 
-// Start the game
-draw();
+// Update elixir display
+function updateElixirDisplay() {
+    playerElixirElement.textContent = playerElixir;
+    opponentElixirElement.textContent = opponentElixir;
+}
+
+// Restart game
+function restartGame() {
+    playerElixir = 10;
+    opponentElixir = 10;
+    playerUnits = [];
+    opponentUnits = [];
+    renderPlayerUnits();
+    renderOpponentUnits();
+    updateElixirDisplay();
+}
