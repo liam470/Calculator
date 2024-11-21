@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors Royale</title>
+    <title>Clash Royale Knockoff</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="gameContainer">
-        <h1>Rock Paper Scissors Royale</h1>
+        <h1>Clash Royale Knockoff</h1>
         <div id="arena">
             <div id="playerField" class="field">
                 <h2>Player's Field</h2>
                 <div id="playerUnits"></div>
+            </div>
+            <div id="battlefield">
+                <div id="playerTower" class="tower"></div>
+                <div id="opponentTower" class="tower"></div>
             </div>
             <div id="opponentField" class="field">
                 <h2>Opponent's Field</h2>
@@ -20,15 +24,12 @@
             </div>
         </div>
         <div id="controls">
-            <button class="unitButton" id="rockButton">Deploy Rock</button>
-            <button class="unitButton" id="paperButton">Deploy Paper</button>
-            <button class="unitButton" id="scissorsButton">Deploy Scissors</button>
+            <button id="deployUnitBtn">Deploy Unit</button>
         </div>
         <div id="status">
-            <p>Player's Elixir: <span id="playerElixir">10</span></p>
-            <p>Opponent's Elixir: <span id="opponentElixir">10</span></p>
+            <p>Player Elixir: <span id="playerElixir">10</span></p>
+            <p>Opponent Elixir: <span id="opponentElixir">10</span></p>
         </div>
-        <button id="restartButton">Restart</button>
     </div>
     <script src="scripts.js"></script>
 </body>
