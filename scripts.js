@@ -1,123 +1,96 @@
-// Game Setup
-let playerElixir = 10;
-let opponentElixir = 10;
-let playerUnits = [];
-let opponentUnits = [];
-const unitCost = 3; // Elixir cost for each unit
+// Canvas setup
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
-// DOM Elements
-const playerElixirElement = document.getElementById('playerElixir');
-const opponentElixirElement = document.getElementById('opponentElixir');
-const playerUnitsElement = document.getElementById('playerUnits');
-const opponentUnitsElement = document.getElementById('opponentUnits');
-const playerTower = document.getElementById('playerTower');
-const opponentTower = document.getElementById('opponentTower');
-const deployUnitBtn = document.getElementById('deployUnitBtn');
+canvas.width = 800;
+canvas.height = 600;
 
-// Units
-const units = [
-    { name: 'Knight', health: 100, damage: 10, speed: 1, elixir: unitCost, class: 'knight' },
-    { name: 'Archer', health: 80, damage: 12, speed: 1.2, elixir: unitCost, class: 'archer' },
-    { name: 'Giant', health: 200, damage: 20, speed: 0.8, elixir: unitCost, class: 'giant' }
+// Game variables
+let player = { x: 50, y: 500, width: 50, height: 50, speed: 5, jumpPower: 15, velocityY: 0, grounded: false };
+let gravity = 0.8;
+
+let platforms = [
+  { x: 0, y: 550, width: 800, height: 50 },
+  { x: 200, y: 400, width: 150, height: 20 },
+  { x: 400, y: 300, width: 150, height: 20 }
 ];
 
+let obstacle = { x: 600, y: 500, width: 50, height: 50, speed: 3 };
+
+// Key tracking
+let keys = {};
+
+// Event listeners for movement
+window.addEventListener('keydown', (e) => keys[e.key] = true);
+window.addEventListener('keyup', (e) => keys[e.key] = false);
+
 // Game loop
-let gameInterval = setInterval(gameLoop, 1000);
-
-// Deploy Unit Button
-deployUnitBtn.addEventListener('click', () => deployUnit());
-
-// Deploy Unit Logic
-function deployUnit() {
-    if (playerElixir >= unitCost) {
-        playerElixir -= unitCost;
-        updateElixirDisplay();
-
-        // Choose a random unit
-        const unit = units[Math.floor(Math.random() * units.length)];
-        playerUnits.push(unit);
-        createUnit(unit, 'player');
-    }
-}
-
-// Create Unit Function
-function createUnit(unit, playerType) {
-    const unitDiv = document.createElement('div');
-    unitDiv.classList.add('unit', unit.class);
-    unitDiv.textContent = unit.name;
-    const field = playerType === 'player' ? playerUnitsElement : opponentUnitsElement;
-    field.appendChild(unitDiv);
-
-    // Set unit position
-    const unitPosition = playerType === 'player' ? 'left' : 'right';
-    unitDiv.style.position = 'absolute';
-    unitDiv.style.bottom = '0';
-    unitDiv.style[unitPosition] = '10%';
-
-    // Move the unit towards the opponent's tower
-    moveUnit(unitDiv, playerType, unit);
-}
-
-// Unit Movement
-function moveUnit(unitDiv, playerType, unit) {
-    const targetTower = playerType === 'player' ? opponentTower : playerTower;
-    let unitPosition = parseInt(unitDiv.style.left || 0);
-    const unitSpeed = unit.speed * 10;
-
-    let interval = setInterval(() => {
-        unitPosition += unitSpeed;
-        unitDiv.style.left = unitPosition + '%';
-
-        // Check if the unit has reached the opponent's tower
-        if (unitPosition >= 90) {
-            clearInterval(interval);
-            targetTowerHit(unit, playerType);
-        }
-    }, 100);
-}
-
-// Tower Hit Logic
-function targetTowerHit(unit, playerType) {
-    if (playerType === 'player') {
-        opponentElixir -= unit.damage;
-    } else {
-        playerElixir -= unit.damage;
-    }
-    updateElixirDisplay();
-    checkWin();
-}
-
-// Update Elixir Display
-function updateElixirDisplay() {
-    playerElixirElement.textContent = playerElixir;
-    opponentElixirElement.textContent = opponentElixir;
-}
-
-// Check for Win Condition
-function checkWin() {
-    if (playerElixir <= 0) {
-        alert("Game Over! You Lost!");
-        resetGame();
-    } else if (opponentElixir <= 0) {
-        alert("You Win!");
-        resetGame();
-    }
-}
-
-// Reset Game Logic
-function resetGame() {
-    playerElixir = 10;
-    opponentElixir = 10;
-    playerUnits = [];
-    opponentUnits = [];
-    updateElixirDisplay();
-    playerUnitsElement.innerHTML = '';
-    opponentUnitsElement.innerHTML = '';
-}
-
-// Game Loop to regenerate elixir
 function gameLoop() {
-    if (playerElixir < 10) playerElixir++;
-    if (opponentElixir < 10) opponentElixir++;
-    updateElixirDisplay();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw platforms
+  ctx.fillStyle = '#654321';
+  platforms.forEach(platform => {
+    ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+  });
+
+  // Draw player
+  ctx.fillStyle = '#FF0000';
+  ctx.fillRect(player.x, player.y, player.width, player.height);
+
+  // Draw obstacle
+  ctx.fillStyle = '#0000FF';
+  ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+
+  // Player movement
+  if (keys['a'] || keys['A']) player.x -= player.speed;
+  if (keys['d'] || keys['D']) player.x += player.speed;
+
+  // Jumping
+  if ((keys['w'] || keys['W']) && player.grounded) {
+    player.velocityY = -player.jumpPower;
+    player.grounded = false;
+  }
+
+  // Gravity
+  player.velocityY += gravity;
+  player.y += player.velocityY;
+
+  // Ground collision
+  platforms.forEach(platform => {
+    if (
+      player.x < platform.x + platform.width &&
+      player.x + player.width > platform.x &&
+      player.y < platform.y + platform.height &&
+      player.y + player.height > platform.y
+    ) {
+      player.y = platform.y - player.height;
+      player.velocityY = 0;
+      player.grounded = true;
+    }
+  });
+
+  // Obstacle movement
+  obstacle.x += obstacle.speed;
+  if (obstacle.x + obstacle.width > canvas.width || obstacle.x < 0) {
+    obstacle.speed *= -1;
+  }
+
+  // Collision detection with obstacle (Game Over logic placeholder)
+  if (
+    player.x < obstacle.x + obstacle.width &&
+    player.x + player.width > obstacle.x &&
+    player.y < obstacle.y + obstacle.height &&
+    player.y + player.height > obstacle.y
+  ) {
+    alert('Game Over!');
+    player.x = 50;
+    player.y = 500;
+    obstacle.x = 600;
+  }
+
+  requestAnimationFrame(gameLoop);
 }
+
+// Start game loop
+gameLoop();
